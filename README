@@ -1,0 +1,35 @@
+SUMMARY-
+
+This program takes inputs from the server running on the machine elsrv2.cs.umass.edu (or in dotted notation 128.119.243.134) in the form of the char array
+
+	cs653fall2017 STATUS [a number] [a math operator] [another number]\n
+
+and returns to it the array in the following format
+
+	cs653fall2017 [the solution]\n
+
+until the server returns a secret flag, after which the program ends and the socket connection closes.
+
+APPROACH-
+
+First the client creates a socket connection with the server and sends a HELLO message containing the email address of the sender. Upon receipt of an input from the server, the program parses the array and extracts the possible "STATUS", "BYE", or the secret flag. As all the messages are of a fixed format, the program extracts the characters just after the "cs653fall2017 " part of the message to check what kind of message that is. If the message is a STATUS message, the program parses the rest of the array, extracts the numbers and the operator, calculates the result rounded down to the nearest integer and sends the result array back to the server. The functions send() and recv() are in a loop and hence this process repeats itself till the client receives the BYE message, in which case the program sends nothing back to the server, displays the already parsed secret flag and ends execution.
+
+TESTING-
+
+The code was tested by repeated calls to the server till the server returned the secret flag.
+
+HOW TO RUN ON LINUX-
+
+First run the command 
+	
+	make all
+
+to compile the code. Then run the command
+
+	make testNet
+
+to run the program through the makefile or run the following command on the terminal window
+
+	./client 27993 elsrv2.cs.umass.edu shreyasmishr@umass.edu
+
+where 27993 is the port, elsrv2.cs.umass.edu is the DNS name of the server and shreyasmishr@umass.edu is my emailID.
